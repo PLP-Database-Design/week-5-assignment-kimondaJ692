@@ -53,47 +53,63 @@ app.get('/', (req, res) => {
 });
 
 //retrieves all patients
-  // Retrieve data from database 
+ 
 
+  app.get('/patients', (req,res) => {
 
+    // Retrieve data from database 
+    db.query('SELECT * FROM patients', (err, results) =>{
+        if (err){
+            console.error(err);
+            res.status(500).send('Error Retrieving data')
+        }else {
+            //Display the records to the browser 
+            res.render('data', {results: results});
+        }
+    });
+});
 
 //Retrieve all providers
 app.get('/providers', async (req, res) => {
-    try {
-        const result = await pool.query('SELECT first_name, last_name, provider_specialty FROM providers');
-        res.json(result.rows);
-    } catch (err) {
-        console.error(err);
-        res.status(500).json({ error: 'Failed to retrieve providers' });
-    }
+    db.query('SELECT * FROM providers', (err, results) =>{
+        if (err){
+            console.error(err);
+            res.status(500).send('Error Retrieving data')
+        }else {
+            //Display the records to the browser 
+            res.render('data', {results: results});
+        }
+    });
 });
 
 //Filter patients by first name
 app.get('/patients/:first_name', async (req, res) => {
     const firstName = req.params.first_name;
 
-    try {
-        const result = await pool.query('SELECT patient_id, first_name, last_name, date_of_birth FROM patients WHERE first_name = $1', [firstName]);
-        res.json(result.rows);
-    } catch (err) {
-        console.error(err);
-        res.status(500).json({ error: 'Failed to retrieve patients by first name' });
-    }
+    db.query('SELECT first_name FROM patients ', (err, results) =>{
+        if (err){
+            console.error(err);
+            res.status(500).send('Error Retrieving data')
+        }else {
+            //Display the records to the browser 
+            res.render('data', {results: results});
+        }
+    });
 });
 
 //Retrieve all providers by their specialty
-app.get('/providers/specialty/:provider_specialty', async (req, res) => {
-    const specialty = req.params.provider_specialty;
-
-    try {
-        const result = await pool.query('SELECT first_name, last_name, provider_specialty FROM providers WHERE provider_specialty = $1', [specialty]);
-        res.json(result.rows);
-    } catch (err) {
-        console.error(err);
-        res.status(500).json({ error: 'Failed to retrieve providers by specialty' });
-    }
+app.get('/providers/:provider_specialty', async (req, res) => {
+    const firstName = req.params.first_name;
+    db.query('SELECT provider_id, first_name, provider_specialty FROM providers', (err, results) =>{
+        if (err){
+            console.error(err);
+            res.status(500).send('Error Retrieving data')
+        }else {
+            //Display the records to the browser 
+            res.render('data', {results: results});
+        }
+    });
 });
-
 app.set('view engine', 'ejs');
 app.set('views', __dirname + '/views');
 
