@@ -1,0 +1,22 @@
+# Ignore node_modules directory (dependencies)
+node_modules/
+
+# Ignore environment variables file
+.env
+
+# Ignore log files
+*.log
+
+# Ignore temporary files (Mac, Linux, Windows OS-specific files)
+.DS_Store
+Thumbs.db
+
+# Ignore compiled binaries
+*.exe
+*.out
+*.dll
+
+*.json
+!important-config.json
+
+logs/*.log
